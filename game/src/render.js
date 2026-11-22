@@ -64,6 +64,10 @@ function drawFloor(ctx, s) {
         ctx.strokeStyle = "rgba(255,255,255,0.05)";
         ctx.lineWidth = 1;
         ctx.strokeRect(px + 0.5, py + 0.5, TILE - 1, TILE - 1);
+      } else {
+        ctx.strokeStyle = "rgba(255,255,255,0.035)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(px + 0.5, py + 0.5, TILE - 1, TILE - 1);
       }
     }
   }
@@ -267,16 +271,19 @@ function drawRoutes(ctx, s) {
     ctx.stroke();
   }
   ctx.setLineDash([]);
-  // route labels
-  ctx.font = "bold 13px system-ui, sans-serif";
-  ctx.fillStyle = C.routeA;
-  ctx.fillText("A · MARBLE DASH — fast, two cameras", 250, 300);
-  ctx.fillStyle = C.routeB;
-  ctx.fillText("B · BEHIND THE DESKS — covered, patrolled", 330, 372);
-  ctx.fillStyle = C.routeC;
-  ctx.fillText("C · SERVICE + VENT — needs the cutter", 420, 92);
-  ctx.fillStyle = C.escape;
-  ctx.fillText("ESCAPE — SOUTH DOCK", 560, 540);
+  // route labels (kept clear of their own dashed lines, on dark chips)
+  const label = (text, x, y, color) => {
+    ctx.font = "bold 13px system-ui, sans-serif";
+    const w = ctx.measureText(text).width + 14;
+    ctx.fillStyle = "rgba(6,12,20,0.82)";
+    ctx.fillRect(x - 7, y - 14, w, 20);
+    ctx.fillStyle = color;
+    ctx.fillText(text, x, y);
+  };
+  label("A · MARBLE DASH — fast, two cameras", 250, 282, C.routeA);
+  label("B · BEHIND THE DESKS — covered, patrolled", 235, 432, C.routeB);
+  label("C · SERVICE + VENT — needs the cutter", 430, 152, C.routeC);
+  label("ESCAPE — SOUTH DOCK", 625, 500, C.escape);
 }
 
 function drawHUD(ctx, s) {
@@ -369,11 +376,11 @@ export function render(ctx, s) {
     ], C.gold);
   } else if (s.phase === "plan") {
     ctx.fillStyle = "rgba(6,12,20,0.88)";
-    ctx.fillRect(312, 8, 400, 34);
+    ctx.fillRect(312, 52, 400, 34);
     ctx.fillStyle = C.goldSoft;
     ctx.font = "bold 17px system-ui, sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(`THE PLAN — move to begin (${Math.ceil(s.planT)}s)`, WIDTH / 2, 31);
+    ctx.fillText(`THE PLAN — move to begin (${Math.ceil(s.planT)}s)`, WIDTH / 2, 75);
     ctx.textAlign = "left";
   } else if (s.phase === "win") {
     const bagsTaken = s.bags.filter((b) => b.taken).length;

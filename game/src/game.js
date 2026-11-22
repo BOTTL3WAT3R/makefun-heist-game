@@ -292,7 +292,7 @@ export function setupShot(s, name) {
     s.elapsed = 91; s.cutter = 1; s.decoys = 1;
     s.bags[0].taken = true; s.bags[2].taken = true;
     const g = s.guards;
-    g[2].x = cx(16); g[2].y = cx(12); g[2].angle = Math.PI / 2; // right behind him
+    g[2].x = cx(16); g[2].y = cx(14); g[2].angle = Math.PI / 2; // right behind him, cone on his back
     g[0].x = cx(20); g[0].y = cx(7); g[0].angle = Math.PI * 0.75;
     g[1].x = cx(18); g[1].y = cx(2); g[1].angle = Math.PI;
     s.exposure = 0.8; s.seenBy = "guard";
@@ -302,6 +302,7 @@ export function setupShot(s, name) {
   if (name === "win") {
     setupShot(s, "escape");
     s.phase = "win"; s.rank = "CLEAN"; s.elapsed = 96; s.peak = 86;
+    s.msg = ""; s.msgT = 0;
     P(16, 17);
     return;
   }
